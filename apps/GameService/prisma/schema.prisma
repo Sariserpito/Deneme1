@@ -1,0 +1,28 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Game {
+  createdAt  DateTime @default(now())
+  id         String   @id @default(cuid())
+  progresses Json?
+  timers     Timer[]
+  title      String?
+  updatedAt  DateTime @updatedAt
+}
+
+model Timer {
+  createdAt   DateTime @default(now())
+  delay       Int?
+  game        Game?    @relation(fields: [gameId], references: [id])
+  gameId      String?
+  id          String   @id @default(cuid())
+  sceneId     String?
+  targetScene String?
+  updatedAt   DateTime @updatedAt
+}
