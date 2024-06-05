@@ -1,0 +1,29 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Scene {
+  choices      Choice[]
+  content      String?
+  createdAt    DateTime @default(now())
+  id           String   @id @default(cuid())
+  isCheckpoint Boolean?
+  progresses   Json?
+  timers       Json?
+  updatedAt    DateTime @updatedAt
+}
+
+model Choice {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  nextScene String?
+  scene     Scene?   @relation(fields: [sceneId], references: [id])
+  sceneId   String?
+  text      String?
+  updatedAt DateTime @updatedAt
+}
