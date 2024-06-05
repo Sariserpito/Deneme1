@@ -1,4 +1,3 @@
-import { ProgressCreateNestedManyWithoutUsersInput } from "./ProgressCreateNestedManyWithoutUsersInput";
 import { InputJsonValue } from "../../types";
 
 export type UserCreateInput = {
@@ -6,7 +5,7 @@ export type UserCreateInput = {
   firstName?: string | null;
   lastName?: string | null;
   password: string;
-  progresses?: ProgressCreateNestedManyWithoutUsersInput;
+  progresses?: InputJsonValue;
   roles: InputJsonValue;
   username: string;
 };

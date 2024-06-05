@@ -7,70 +7,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Game {
-  createdAt  DateTime   @default(now())
-  id         String     @id @default(cuid())
-  progresses Progress[]
-  timers     Timer[]
-  title      String?
-  updatedAt  DateTime   @updatedAt
-}
-
-model Scene {
-  choices      Choice[]
-  content      String?
-  createdAt    DateTime   @default(now())
-  id           String     @id @default(cuid())
-  isCheckpoint Boolean?
-  progresses   Progress[]
-  timers       Timer[]
-  updatedAt    DateTime   @updatedAt
-}
-
-model Timer {
-  createdAt   DateTime @default(now())
-  delay       Int?
-  game        Game?    @relation(fields: [gameId], references: [id])
-  gameId      String?
-  id          String   @id @default(cuid())
-  scene       Scene?   @relation(fields: [sceneId], references: [id])
-  sceneId     String?
-  targetScene String?
-  updatedAt   DateTime @updatedAt
-}
-
-model Choice {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  nextScene String?
-  scene     Scene?   @relation(fields: [sceneId], references: [id])
-  sceneId   String?
-  text      String?
-  updatedAt DateTime @updatedAt
-}
-
-model Progress {
-  createdAt    DateTime @default(now())
-  currentScene String?
-  game         Game?    @relation(fields: [gameId], references: [id])
-  gameId       String?
-  id           String   @id @default(cuid())
-  scene        Scene?   @relation(fields: [sceneId], references: [id])
-  sceneId      String?
-  updatedAt    DateTime @updatedAt
-  user         User?    @relation(fields: [userId], references: [id])
-  userId       String?
-}
-
 model User {
-  createdAt  DateTime   @default(now())
-  email      String?    @unique
+  createdAt  DateTime @default(now())
+  email      String?  @unique
   firstName  String?
-  id         String     @id @default(cuid())
+  id         String   @id @default(cuid())
   lastName   String?
   password   String
-  progresses Progress[]
+  progresses Json?
   roles      Json
-  updatedAt  DateTime   @updatedAt
-  username   String     @unique
+  updatedAt  DateTime @updatedAt
+  username   String   @unique
 }

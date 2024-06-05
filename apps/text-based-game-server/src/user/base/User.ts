@@ -11,9 +11,8 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsString, IsOptional, ValidateNested } from "class-validator";
+import { IsDate, IsString, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { Progress } from "../../progress/base/Progress";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
@@ -71,12 +70,13 @@ class User {
 
   @ApiProperty({
     required: false,
-    type: () => [Progress],
   })
-  @ValidateNested()
-  @Type(() => Progress)
+  @IsJSONValue()
   @IsOptional()
-  progresses?: Array<Progress>;
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  progresses!: JsonValue;
 
   @ApiProperty({
     required: true,
