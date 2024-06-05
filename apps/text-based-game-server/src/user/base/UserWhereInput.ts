@@ -13,9 +13,9 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { Type } from "class-transformer";
-import { IsOptional, ValidateNested } from "class-validator";
+import { IsOptional } from "class-validator";
 import { StringFilter } from "../../util/StringFilter";
-import { ProgressListRelationFilter } from "../../progress/base/ProgressListRelationFilter";
+import { JsonFilter } from "../../util/JsonFilter";
 
 @InputType()
 class UserWhereInput {
@@ -65,15 +65,14 @@ class UserWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => ProgressListRelationFilter,
+    type: JsonFilter,
   })
-  @ValidateNested()
-  @Type(() => ProgressListRelationFilter)
+  @Type(() => JsonFilter)
   @IsOptional()
-  @Field(() => ProgressListRelationFilter, {
+  @Field(() => JsonFilter, {
     nullable: true,
   })
-  progresses?: ProgressListRelationFilter;
+  progresses?: JsonFilter;
 
   @ApiProperty({
     required: false,

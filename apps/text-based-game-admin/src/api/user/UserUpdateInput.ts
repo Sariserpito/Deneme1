@@ -1,4 +1,3 @@
-import { ProgressUpdateManyWithoutUsersInput } from "./ProgressUpdateManyWithoutUsersInput";
 import { InputJsonValue } from "../../types";
 
 export type UserUpdateInput = {
@@ -6,7 +5,7 @@ export type UserUpdateInput = {
   firstName?: string | null;
   lastName?: string | null;
   password?: string;
-  progresses?: ProgressUpdateManyWithoutUsersInput;
+  progresses?: InputJsonValue;
   roles?: InputJsonValue;
   username?: string;
 };

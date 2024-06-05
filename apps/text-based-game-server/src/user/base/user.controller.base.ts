@@ -22,9 +22,6 @@ import { User } from "./User";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserWhereUniqueInput } from "./UserWhereUniqueInput";
 import { UserUpdateInput } from "./UserUpdateInput";
-import { ProgressFindManyArgs } from "../../progress/base/ProgressFindManyArgs";
-import { Progress } from "../../progress/base/Progress";
-import { ProgressWhereUniqueInput } from "../../progress/base/ProgressWhereUniqueInput";
 
 export class UserControllerBase {
   constructor(protected readonly service: UserService) {}
@@ -39,6 +36,7 @@ export class UserControllerBase {
         firstName: true,
         id: true,
         lastName: true,
+        progresses: true,
         roles: true,
         updatedAt: true,
         username: true,
@@ -59,6 +57,7 @@ export class UserControllerBase {
         firstName: true,
         id: true,
         lastName: true,
+        progresses: true,
         roles: true,
         updatedAt: true,
         username: true,
@@ -80,6 +79,7 @@ export class UserControllerBase {
         firstName: true,
         id: true,
         lastName: true,
+        progresses: true,
         roles: true,
         updatedAt: true,
         username: true,
@@ -110,6 +110,7 @@ export class UserControllerBase {
           firstName: true,
           id: true,
           lastName: true,
+          progresses: true,
           roles: true,
           updatedAt: true,
           username: true,
@@ -140,6 +141,7 @@ export class UserControllerBase {
           firstName: true,
           id: true,
           lastName: true,
+          progresses: true,
           roles: true,
           updatedAt: true,
           username: true,
@@ -153,100 +155,5 @@ export class UserControllerBase {
       }
       throw error;
     }
-  }
-
-  @common.Get("/:id/progresses")
-  @ApiNestedQuery(ProgressFindManyArgs)
-  async findProgresses(
-    @common.Req() request: Request,
-    @common.Param() params: UserWhereUniqueInput
-  ): Promise<Progress[]> {
-    const query = plainToClass(ProgressFindManyArgs, request.query);
-    const results = await this.service.findProgresses(params.id, {
-      ...query,
-      select: {
-        createdAt: true,
-        currentScene: true,
-
-        game: {
-          select: {
-            id: true,
-          },
-        },
-
-        id: true,
-
-        scene: {
-          select: {
-            id: true,
-          },
-        },
-
-        updatedAt: true,
-
-        user: {
-          select: {
-            id: true,
-          },
-        },
-      },
-    });
-    if (results === null) {
-      throw new errors.NotFoundException(
-        `No resource was found for ${JSON.stringify(params)}`
-      );
-    }
-    return results;
-  }
-
-  @common.Post("/:id/progresses")
-  async connectProgresses(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() body: ProgressWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      progresses: {
-        connect: body,
-      },
-    };
-    await this.service.updateUser({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Patch("/:id/progresses")
-  async updateProgresses(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() body: ProgressWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      progresses: {
-        set: body,
-      },
-    };
-    await this.service.updateUser({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Delete("/:id/progresses")
-  async disconnectProgresses(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() body: ProgressWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      progresses: {
-        disconnect: body,
-      },
-    };
-    await this.service.updateUser({
-      where: params,
-      data,
-      select: { id: true },
-    });
   }
 }

@@ -20,8 +20,6 @@ import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { CreateUserArgs } from "./CreateUserArgs";
 import { UpdateUserArgs } from "./UpdateUserArgs";
 import { DeleteUserArgs } from "./DeleteUserArgs";
-import { ProgressFindManyArgs } from "../../progress/base/ProgressFindManyArgs";
-import { Progress } from "../../progress/base/Progress";
 import { UserService } from "../user.service";
 @graphql.Resolver(() => User)
 export class UserResolverBase {
@@ -87,19 +85,5 @@ export class UserResolverBase {
       }
       throw error;
     }
-  }
-
-  @graphql.ResolveField(() => [Progress], { name: "progresses" })
-  async findProgresses(
-    @graphql.Parent() parent: User,
-    @graphql.Args() args: ProgressFindManyArgs
-  ): Promise<Progress[]> {
-    const results = await this.service.findProgresses(parent.id, args);
-
-    if (!results) {
-      return [];
-    }
-
-    return results;
   }
 }
