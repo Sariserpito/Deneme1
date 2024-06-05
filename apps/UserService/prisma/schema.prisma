@@ -1,0 +1,18 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Progress {
+  createdAt    DateTime @default(now())
+  currentScene String?
+  gameId       String?
+  id           String   @id @default(cuid())
+  sceneId      String?
+  updatedAt    DateTime @updatedAt
+  userId       String?
+}
